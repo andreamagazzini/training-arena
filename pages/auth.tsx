@@ -5,7 +5,6 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 
 import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 
 import background from "../public/images/hero.jpg";
 import Logo from "../components/Logo";
@@ -60,14 +59,15 @@ const Auth = () => {
         />
       </div>
       <div className="relative">
-        <div className="bg-black lg:bg-opacity-50 h-screen">
-          <nav className="px-12 py-5">
-            <div className="w-[200px]">
-              <Logo />
+        <div className="bg-black md:bg-opacity-50 h-screen">
+          <nav className="xs:relative md:absolute px-12 py-5">
+            <div className="flex flex-col justify-center text-center text-white text-xl">
+              <Logo className="w-20" />
+              Training Arena
             </div>
           </nav>
-          <div className="flex justify-center">
-            <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
+          <div className="pt-10 flex justify-center">
+            <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 md:w-96 rounded-md w-full">
               <h2 className="text-white text-4xl mb-8 font-semibold">
                 {variant === "login" ? "Sign In" : "Register"}
               </h2>
@@ -139,28 +139,12 @@ const Auth = () => {
                 >
                   <FcGoogle size={30} />
                 </div>
-                <div
-                  onClick={() => signIn("github", { callbackUrl: "/profiles" })}
-                  className="
-                    w-10
-                    h-10
-                    bg-white
-                    rounded-full
-                    flex
-                    items-center
-                    justify-center
-                    cursor-pointer
-                    hover:opacity-80
-                    transition
-                  "
-                >
-                  <FaGithub size={30} />
-                </div>
               </div>
-              <p className="text-neutral-500 mt-12">
+              <p className="text-neutral-500 mt-12 text-center">
                 {variant === "login"
-                  ? "First time using Netflix?"
+                  ? "First time using Training Arena?"
                   : "Already have an account?"}
+                <br/>
                 <span
                   onClick={toggleVariant}
                   className="text-white ml-1 hover:underline cursor-pointer "
