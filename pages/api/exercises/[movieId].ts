@@ -25,7 +25,7 @@ export default async function handler(
       throw new Error("Invalid ID");
     }
 
-    const movie = await prismadb.movie.findUnique({
+    const movie = await prismadb.exercise.findUnique({
       where: {
         id: movieId,
       },
