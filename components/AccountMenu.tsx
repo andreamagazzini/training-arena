@@ -53,7 +53,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ visible }) => {
             hover:underline
           "
         >
-          Sign out of Netflix
+          Sign out
         </div>
       </div>
     </div>

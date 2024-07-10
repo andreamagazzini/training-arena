@@ -60,12 +60,15 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Movie {
+model Exercise {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
-  title        String
-  description  String
-  videoUrl     String
-  thumbnailUrl String
-  genre        String
-  duration     String
+  Name         String
+  Description  String
+  isCustom     Boolean
+}
+
+model PlayerInfo {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  Name         String
+  Timestamp    Int
 }

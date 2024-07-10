@@ -14,10 +14,11 @@ export default async function handler(
   try {
     await serverAuth(req, res);
 
-    const movies = await prismadb.movie.findMany();
+    const player = await prismadb.playerInfo.findMany();
 
-    return res.status(200).json(movies);
+    return res.status(200).json(player);
   } catch (error: any) {
+    console.error(error)
     return res.status(400).end();
   }
 }

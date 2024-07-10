@@ -1,12 +1,10 @@
 import type { NextPage, NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import Navbar from "../components/Navbar";
-import Billboard from "../components/Billboard";
-import MovieList from "../components/MovieList";
-import useMovies from "../hooks/useMovies";
-import useFavorites from "../hooks/useFavorites";
 import InfoModal from "../components/InfoModal";
 import useInfoModal from "../hooks/useInfoModal";
+import useExercises from "../hooks/useExercises";
+import usePlayers from "../hooks/usePlayers";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -26,20 +24,24 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 const Home: NextPage = () => {
-  const { actionList, scifiList, otherList } = useMovies();
-  const { data: favorites = [] } = useFavorites();
+  const { exercises } = useExercises();
+  const { players } = usePlayers();
   const { isOpen, closeModal } = useInfoModal();
 
   return (
     <>
       <InfoModal visible={isOpen} onClose={closeModal} />
       <Navbar />
-      <Billboard />
-      <div className="pb-40">
-        <MovieList title="Action" data={actionList} />
-        <MovieList title="Sci-Fi" data={scifiList} />
-        <MovieList title="My List" data={favorites} />
-        <MovieList title="Other" data={otherList} />
+      <div className="flex flex-col gap-2">
+        {
+          exercises?.map((exercise: any) => <div key={exercise.id}>{exercise.Name}</div>)
+        }
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {
+          players?.map((player: any) => <div key={player.id}>{player.Name}</div>)
+        }
       </div>
     </>
   );

@@ -13,6 +13,8 @@ export default async function handler(
   try {
     const { email, password, name } = req.body;
 
+    console.log(email, password, name)
+
     if (!email || !password) {
       res.status(400).json({ error: "Email and password are required" });
       return;
@@ -23,6 +25,8 @@ export default async function handler(
         email,
       },
     });
+
+    console.log(user)
 
     if (user) {
       return res.status(422).json({ error: "Email already exists" });
@@ -42,6 +46,7 @@ export default async function handler(
 
     return res.status(200).json(newUser);
   } catch (error: any) {
+    console.log(error)
     return res.status(400).end();
   }
 }

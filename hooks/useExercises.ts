@@ -1,18 +1,18 @@
 import useSWR from "swr";
 import fetcher from "../libs/fetcher";
 
-const useBillboard = () => {
-  const { data, error, isLoading } = useSWR("/api/random", fetcher, {
+const useExercises = () => {
+  const { data, error, isLoading } = useSWR("/api/exercises", fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
 
   return {
-    data,
+    exercises: data,
     error,
     isLoading,
   };
 };
 
-export default useBillboard;
+export default useExercises;
