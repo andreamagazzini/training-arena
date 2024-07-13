@@ -75,25 +75,25 @@ const Auth = () => {
                 {variant === "register" && (
                   <Input
                     id="name"
+                    name="name"
                     label="Username"
                     type="text"
-                    onChange={(e) => setName(e.target.value)}
-                    value={name}
+                    onChange={setName}
                   />
                 )}
                 <Input
                   id="email"
+                  name="email"
                   label="Email"
                   type="text"
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
+                  onChange={setEmail}
                 />
                 <Input
                   id="password"
+                  name="password"
                   label="Password"
                   type="text"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
+                  onChange={setPassword}
                 />
               </div>
               <button
