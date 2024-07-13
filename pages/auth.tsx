@@ -27,9 +27,10 @@ const Auth = () => {
       await signIn("credentials", {
         email,
         password,
-        callbackUrl: "/profiles",
+        callbackUrl: "/exercises",
       });
     } catch (error: any) {
+      console.error(error);
       throw new Error(error);
     }
   }, [email, password]);
@@ -44,6 +45,7 @@ const Auth = () => {
 
       login();
     } catch (error: any) {
+      console.error(error);
       throw new Error(error);
     }
   }, [email, name, password, login]);
