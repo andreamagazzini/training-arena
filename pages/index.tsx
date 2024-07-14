@@ -1,14 +1,14 @@
-import type { NextPage, NextPageContext } from "next";
-import { getSession } from "next-auth/react";
+import type { GetServerSideProps, NextPage } from "next";
+import { getServerSession } from "next-auth/next";
 import useExercises from "../hooks/useExercises";
 import usePlayers from "../hooks/usePlayers";
 import Link from "next/link";
 import { Exercise, PlayerInfo } from "@prisma/client";
+import { authOptions } from "./api/auth/[...nextauth]"
 
-export async function getServerSideProps(context: NextPageContext) {
-  const session = await getSession(context);
+export const getServerSideProps : GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  console.log("Current session", session)
   if (!session) {
     return {
       redirect: {
@@ -17,7 +17,6 @@ export async function getServerSideProps(context: NextPageContext) {
       },
     };
   }
-
 
   return {
     props: {},
