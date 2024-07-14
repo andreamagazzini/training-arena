@@ -7,14 +7,14 @@ type Props = {
     children: any
 }
 
-const Layout: FC<Props> = ({children}) => {
+const Layout: FC<Props> = ({ children }) => {
     const { isOpen, closeModal } = useInfoModal();
-    
+
     return (
         <>
             <Navbar />
             <main className="flex py-20 px-5 justify-center gap-5">
-                {children}
+                <>{children}</>
             </main>
             <InfoModal visible={isOpen} onClose={closeModal} />
         </>
