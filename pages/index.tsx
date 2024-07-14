@@ -5,6 +5,7 @@ import InfoModal from "../components/InfoModal";
 import useInfoModal from "../hooks/useInfoModal";
 import useExercises from "../hooks/useExercises";
 import usePlayers from "../hooks/usePlayers";
+import Link from "next/link";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -26,23 +27,29 @@ export async function getServerSideProps(context: NextPageContext) {
 const Home: NextPage = () => {
   const { exercises } = useExercises();
   const { players } = usePlayers();
-  const { isOpen, closeModal } = useInfoModal();
 
   return (
     <>
-      <InfoModal visible={isOpen} onClose={closeModal} />
-      <Navbar />
-      <div className="flex flex-col gap-2">
-        {
-          exercises?.map((exercise: any) => <div key={exercise.id}>{exercise.Name}</div>)
-        }
-      </div>
+      
+      
+      
+        <div className="relative w-80 bg-white p-3 pb-20 rounded flex flex-col gap-2">
+          <div className="text-xl border-b">Esercizi</div>
+          {
+            exercises?.map((exercise: any) => <div key={exercise.id}>{exercise.Name}</div>)
+          }
+          <Link href="/exercises/create">
+          <button className="absolute bottom-3 right-3 w-40 bg-teal-500 rounded p-3">Crea esercizio</button>
+          </Link>
+        </div>
 
-      <div className="flex flex-col gap-2">
-        {
-          players?.map((player: any) => <div key={player.id}>{player.Name}</div>)
-        }
-      </div>
+        <div className="relative w-80 bg-white p-3 pb-20 rounded flex flex-col gap-2">
+          <div className="text-xl border-b">Giocatori</div>
+          {
+            players?.map((player: any) => <div key={player.id}>{player.Name}</div>)
+          }
+          <button className="absolute bottom-3 right-3 w-40 bg-teal-500 rounded p-3">Crea giocatore</button>
+        </div>
     </>
   );
 };

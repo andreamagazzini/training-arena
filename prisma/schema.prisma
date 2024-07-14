@@ -61,10 +61,30 @@ model VerificationToken {
 }
 
 model Exercise {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
-  Name         String
-  Description  String
-  isCustom     Boolean
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  Name            String
+  Description     String
+  HorizontalAreas Int[]
+  VerticalAreas   Int[]
+  ExerciseSeries  ExerciseSeries[] @relation(fields: [Series], references: [id])
+  Series          String[] @db.ObjectId
+  isCustom        Boolean
+}
+
+model ExerciseSeries {
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  FakeTargetsEnabled      Boolean
+  Name                    String
+  PreviewTargetEnabled    Boolean
+  TargetCountLimit        Int
+  TargetCountLimitEnabled Boolean
+  TimeLimit               Int
+  TimeLimitEnabled        Boolean
+  TargetColor             String
+  TargetShape             String
+  TargetSize              String
+  Exercises               Exercise[] @relation(fields: [ExerciseIds], references: [id])
+  ExerciseIds             String[] @db.ObjectId
 }
 
 model PlayerInfo {

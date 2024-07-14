@@ -7,16 +7,24 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
-    return res.status(405).end();
-  }
-
   try {
     await serverAuth(req, res);
+    
+    if (req.method === "GET") {
+      const exercises = await prismadb.exercise.findMany();
+      console.log(`${exercises.length} exercises fetched`)
+      return res.status(200).json(exercises);  
+    }
 
-    const exercises = await prismadb.exercise.findMany();
+    if (req.method === "POST") {
+      // TODO: remove isCustom in case it is not used
+      const { Series, ...body } = req.body; 
+      const exercise = await prismadb.exercise.create({ data: { ...body, ExerciseSeries: { connect: Series.map((s: string) => ({ id: s })) }, isCustom: true } });
+      console.log("Exercise created", exercise)
+      return res.status(200).json(exercise);
+    }
 
-    return res.status(200).json(exercises);
+    return res.status(405).end()
   } catch (error: any) {
     console.error(error)
     return res.status(400).end();

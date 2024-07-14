@@ -61,9 +61,7 @@ const Navbar = () => {
             lg:flex
           "
         >
-          <NavbarItem label="Home" />
-          <NavbarItem label="Classifica" />
-          <NavbarItem label="Esercizi" />
+          <NavbarItem label="Home" to={"/"} />
         </div>
         <div
           onClick={toggleMobileMenu}

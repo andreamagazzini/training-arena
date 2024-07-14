@@ -1,40 +1,28 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, HTMLProps, useState } from "react";
 
-type Props = {
-  id: string;
-  name: string;
-  onChange?: (value: string) => void;
-  defaultValue?: string;
-  label?: string;
-  placeholder?: string
-  type?: string;
+type Props = HTMLProps<HTMLInputElement> & {
+  onChange: (value: string) => void;
 }
 
 const Input: FC<Props> = ({
-  id,
-  name,
-  onChange,
   defaultValue = "",
-  label: _label,
-  placeholder = "",
-  type = "text"
+  onChange,
+  ...props
 }) => {
   const [value, setValue] = useState(defaultValue);
+  
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
-    onChange?.(newValue);
+    onChange(newValue);
   }
 
   return (
     <input
       onChange={handleChange}
-      className="p-3 rounded"
+      className="p-3 rounded text-black"
       value={value}
-      placeholder={placeholder}
-      type={type}
-      id={id}
-      name={name}
+      {...props}
     />
   );
 };

@@ -8,11 +8,16 @@ import { FcGoogle } from "react-icons/fc";
 
 import background from "../public/images/hero.jpg";
 import Logo from "../components/Logo";
+import { Controller, useForm } from "react-hook-form";
+
+type FormFields = {
+  name?: string,
+  email: string,
+  password: string
+}
 
 const Auth = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const { control, handleSubmit } = useForm<FormFields>();
 
   const [variant, setVariant] = useState("login");
 
@@ -22,37 +27,35 @@ const Auth = () => {
     );
   }, []);
 
-  const login = useCallback(async () => {
+  const login = async (email: string, password: string) => {
     try {
       await signIn("credentials", {
         email,
         password,
-        callbackUrl: "/exercises",
+        callbackUrl: "/",
       });
     } catch (error: any) {
       console.error(error);
       throw new Error(error);
     }
-  }, [email, password]);
+  }
 
-  const register = useCallback(async () => {
+  const onSubmit = async (data: FormFields) => {
     try {
-      await axios.post("/api/register", {
-        email,
-        name,
-        password,
-      });
+      if (variant === "register") {
+        await axios.post("/api/register", data);
+      }
 
-      login();
+      login(data.email, data.password);
     } catch (error: any) {
       console.error(error);
       throw new Error(error);
     }
-  }, [email, name, password, login]);
+  }
 
   return (
     <>
-      <div className="absolute -z-10 h-full w-full">
+      <div className="fixed -z-10 h-full w-full">
         <Image
           src={background}
           alt="background"
@@ -60,73 +63,77 @@ const Auth = () => {
           style={{ objectFit: "cover" }}
         />
       </div>
-      <div className="relative">
-        <div className="bg-black md:bg-opacity-50 h-screen">
-          <nav className="xs:relative md:absolute px-12 py-5">
-            <div className="flex flex-col justify-center text-center text-white text-xl">
-              <Logo className="w-20" />
-              Training Arena
-            </div>
-          </nav>
-          <div className="pt-10 flex justify-center">
-            <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 md:w-96 rounded-md w-full">
-              <h2 className="text-white text-4xl mb-8 font-semibold">
-                {variant === "login" ? "Sign In" : "Register"}
-              </h2>
-              <div className="flex flex-col gap-4">
-                {variant === "register" && (
-                  <Input
-                    id="name"
-                    name="name"
-                    label="Username"
-                    type="text"
-                    onChange={setName}
-                  />
-                )}
+
+      <div className="flex flex-col bg-black bg-opacity-70 py-5 px-8 gap-8 self-center mt-10 md:w-96 rounded-md w-full">
+        <div className="flex flex-col justify-center items-center text-center text-white text-3xl">
+          <Logo className="w-20" />
+          Training Arena
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {variant === "register" && (
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) =>
                 <Input
-                  id="email"
-                  name="email"
-                  label="Email"
-                  type="text"
-                  onChange={setEmail}
+                  placeholder="Nome"
+                  onChange={field.onChange}
                 />
-                <Input
-                  id="password"
-                  name="password"
-                  label="Password"
-                  type="text"
-                  onChange={setPassword}
-                />
-              </div>
-              <button
-                onClick={variant === "login" ? login : register}
-                className="
+              }
+            />
+
+          )}
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) =>
+              <Input
+                placeholder="Email"
+                onChange={field.onChange}
+              />
+            }
+          />
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) =>
+              <Input
+                type="password"
+                placeholder="Password"
+                onChange={field.onChange}
+              />
+            }
+          />
+          <button
+            type="submit"
+            className="
                   bg-red-600
                   py-3
                   text-white
                   rounded-md
                   w-full
-                  mt-10
                   hover-bg-red-700
                   transition
                   translate-y-0.5
                 "
-              >
-                {variant === "login" ? "Login" : "Sign up"}
-              </button>
-              <div
-                className="
+          >
+            {variant === "login" ? "Login" : "Sign up"}
+          </button>
+        </form>
+
+        <div
+          className="
                   flex
                   flex-row
                   items-center
                   gap-4
-                  mt-8
                   justify-center
                 "
-              >
-                <div
-                  onClick={() => signIn("google", { callbackUrl: "/profiles" })}
-                  className="
+        >
+          <div
+            onClick={() => signIn("google", { callbackUrl: "/profiles" })}
+            className="
                     w-10
                     h-10
                     bg-white
@@ -138,25 +145,22 @@ const Auth = () => {
                     hover:opacity-80
                     transition
                   "
-                >
-                  <FcGoogle size={30} />
-                </div>
-              </div>
-              <p className="text-neutral-500 mt-12 text-center">
-                {variant === "login"
-                  ? "First time using Training Arena?"
-                  : "Already have an account?"}
-                <br/>
-                <span
-                  onClick={toggleVariant}
-                  className="text-white ml-1 hover:underline cursor-pointer "
-                >
-                  {variant === "login" ? "Create an account" : "Login"}
-                </span>
-              </p>
-            </div>
+          >
+            <FcGoogle size={30} />
           </div>
         </div>
+        <p className="text-neutral-500 text-center">
+          {variant === "login"
+            ? "First time using Training Arena?"
+            : "Already have an account?"}
+          <br />
+          <span
+            onClick={toggleVariant}
+            className="text-white hover:underline cursor-pointer "
+          >
+            {variant === "login" ? "Create an account" : "Login"}
+          </span>
+        </p>
       </div>
     </>
   );
