@@ -69,6 +69,7 @@ model Exercise {
   ExerciseSeries  ExerciseSeries[] @relation(fields: [Series], references: [id])
   Series          String[] @db.ObjectId
   isCustom        Boolean
+  Games           Game[]
 }
 
 model ExerciseSeries {
@@ -87,8 +88,17 @@ model ExerciseSeries {
   ExerciseIds             String[] @db.ObjectId
 }
 
+model Game {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  currentPlayerInfo PlayerInfo @relation(fields: [currentPlayerId], references: [id])
+  currentPlayerId   String @db.ObjectId
+  currentExercise   Exercise @relation(fields: [currentExerciseId], references: [id])
+  currentExerciseId String @db.ObjectId
+}
+
 model PlayerInfo {
   id           String @id @default(auto()) @map("_id") @db.ObjectId
   Name         String
   Timestamp    Int
+  Games        Game[]
 }

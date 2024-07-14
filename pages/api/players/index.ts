@@ -14,9 +14,9 @@ export default async function handler(
   try {
     await serverAuth(req, res);
 
-    const player = await prismadb.playerInfo.findMany();
+    const players = await prismadb.playerInfo.findMany();
 
-    return res.status(200).json(player);
+    return res.status(200).json(players);
   } catch (error: any) {
     console.error(error)
     return res.status(400).end();

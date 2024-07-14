@@ -6,7 +6,7 @@ type Options = {
 }
 
 type Props = {
-    options: Options[]
+    options?: Options[]
     defaultValues: string | number | (string | number)[],
     onChange: (values: string | number | (string | number)[]) => void
     placeholder?: string
@@ -41,12 +41,12 @@ const Select: FC<Props> = ({
     }
 
     useEffect(() => {
-        const parsedValues = options.filter((o) => values.includes(o.value.toString())).map((o) => o.value)
+        const parsedValues = options?.filter((o) => values.includes(o.value.toString())).map((o) => o.value)
 
         if(Array.isArray(values)) {
-            onChange(parsedValues)    
+            parsedValues && onChange(parsedValues)    
         } else {
-            onChange(parsedValues[0])
+            parsedValues && onChange(parsedValues[0])
         }
     }, [onChange, options, values])
 
@@ -70,11 +70,11 @@ const Select: FC<Props> = ({
                 <div className="flex flex-auto flex-wrap gap-2 px-3 text-black items-baseline">
                     {
                         typeof values === "string" ?
-                            options.find((option) => option.value.toString() === values)?.label
+                            options?.find((option) => option.value.toString() === values)?.label
                             :
                             values.map((value) => (
                                 <div key={value} className="flex justify-center items-center my-2 font-medium py-1 px-2 bg-white rounded-full text-teal-700 bg-teal-100 border border-teal-300 ">
-                                    <div className="text-xs font-normal leading-none max-w-full flex-initial">{options.find((option) => option.value.toString() === value)?.label}</div>
+                                    <div className="text-xs font-normal leading-none max-w-full flex-initial">{options?.find((option) => option.value.toString() === value)?.label}</div>
                                     <div className="flex flex-auto flex-row-reverse">
                                         <div onClick={() => handleRemove(value)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x cursor-pointer hover:text-teal-400 rounded-full w-4 h-4 ml-2">
@@ -109,7 +109,7 @@ const Select: FC<Props> = ({
                 <div className="absolute shadow top-14 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto">
                     <div className="flex flex-col w-full text-black">
                         {
-                            options.map((option) => (
+                            options?.map((option) => (
                                 <div
                                     key={option.value}
                                     className={`${(typeof values === "string" && values === option.value) || values.includes(option.value.toString()) ? "bg-teal-300" : ""} cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100`}
