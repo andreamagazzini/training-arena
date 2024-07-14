@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import Logo from "./Logo";
-import MobileMenu from "./MobileMenu";
 import NavbarItem from "./NavbarItem";
 import { BsBell, BsChevronDown, BsSearch } from "react-icons/bs";
 import Avatar from "./Avatar";
@@ -9,7 +8,6 @@ import AccountMenu from "./AccountMenu";
 const TOP_OFFSET = 66;
 
 const Navbar = () => {
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setBackground] = useState(false);
 
@@ -25,10 +23,6 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMobileMenu = useCallback(() => {
-    setShowMobileMenu((current) => !current);
   }, []);
 
   const toggleAccountMenu = useCallback(() => {
@@ -57,32 +51,10 @@ const Navbar = () => {
             flex-row
             ml-8
             gap-7
-            hidden
-            lg:flex
+            flex
           "
         >
           <NavbarItem label="Home" to={"/"} />
-        </div>
-        <div
-          onClick={toggleMobileMenu}
-          className="
-            lg:hidden
-            flex
-            flex-row
-            items-center
-            gap-2
-            ml-8
-            cursor-pointer
-            relative
-          "
-        >
-          <p className="text-white text-sm">Browse</p>
-          <BsChevronDown
-            className={`text-white duration-300 transition ${
-              showMobileMenu ? "rotate-180" : "rotate-0"
-            }`}
-          />
-          <MobileMenu visible={showMobileMenu} />
         </div>
         <div className="flex flex-row ml-auto gap-7 items-center">
           <div className="text-gray-200 hover-text-gray-300 cursor-pointer transition">
