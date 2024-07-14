@@ -4,7 +4,7 @@ import InfoModal from "./InfoModal";
 import useInfoModal from "../hooks/useInfoModal";
 
 type Props = {
-    children: ReactNode
+    children: any
 }
 
 const Layout: FC<Props> = ({children}) => {
